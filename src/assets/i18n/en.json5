@@ -880,6 +880,8 @@
 
   "browse.startsWith.type_text": "To browse a location in the index, enter the first few letters. For a general search, click ",
 
+  "browse.startsWith.here": "here",
+
   "browse.startsWith.input": "Filter",
 
   "browse.taxonomy_srsc.title": "Browsing by Subject Category",
