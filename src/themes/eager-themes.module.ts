@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-// import { EagerThemeModule as DSpaceEagerThemeModule } from './dspace/eager-theme.module';
+
+import { EagerThemeModule as DSpaceEagerThemeModule } from './dspace/eager-theme.module';
 // import { EagerThemeModule as CustomEagerThemeModule } from './custom/eager-theme.module';
 import { EagerThemeModule as RdcThemeModule } from './rdc/eager-theme.module';
 import { EagerThemeModule as TamuEagerThemeModule } from './tamu/eager-theme.module';
