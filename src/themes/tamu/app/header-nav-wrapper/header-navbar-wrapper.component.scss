@@ -1,6 +1,6 @@
 :host {
-  --ds-header-navbar-border-bottom-style: var(--ds-header-navbar-border-bottom-height) var(--ds-header-navbar-border-bottom-color) solid;
-  --ds-expandable-navbar-border-top-style: var(--ds-expandable-navbar-border-top-height) var(--ds-expandable-navbar-border-top-color) solid;
+  --ds-header-navbar-border-bottom-style: solid var(--ds-header-navbar-border-bottom-height) var(--ds-header-navbar-border-bottom-color);
+  --ds-expandable-navbar-border-top-style: solid var(--ds-expandable-navbar-border-top-height) var(--ds-expandable-navbar-border-top-color);
   --ds-expandable-navbar-height: calc(100vh - var(--ds-header-height));
 
   div#header-navbar-wrapper {
@@ -23,12 +23,10 @@
       }
     }
   }
-
   /* MENU ITEMS */
 
   ::ng-deep {
     .ds-menu-item, .ds-menu-toggler-wrapper {
-      white-space: nowrap;
       text-decoration: none;
     }
 
@@ -42,17 +40,19 @@
           align-items: center;
           height: 100%;
         }
+
         .ds-menu-item {
           // define here the style for top-level navbar menu items
           padding: var(--ds-navbar-item-vertical-padding) var(--ds-navbar-item-horizontal-padding);
         }
+
         .ds-menu-item, .ds-menu-toggler-wrapper {
           color: var(--ds-navbar-link-color) !important;
+
           &:hover, &:focus {
             color: var(--ds-navbar-link-color-hover) !important;
           }
         }
-
         /* desktop submenu */
 
         .dropdown-menu {
@@ -61,7 +61,6 @@
             padding: var(--ds-navbar-dropdown-item-vertical-padding) var(--ds-navbar-dropdown-item-horizontal-padding);
           }
         }
-
       }
     }
 
@@ -75,7 +74,6 @@
           padding: var(--ds-expandable-navbar-item-vertical-padding) 0;
         }
       }
-
     }
   }
 }
