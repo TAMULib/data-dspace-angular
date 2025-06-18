@@ -82,11 +82,11 @@ $light:     #f8f9fa;  // As Bootstrap $gray-100
 $dark:      #43515f;  // Dark blue
 
 // Add new semantic colors here (you don't need to add existing semantic colors)
-// TAMU Customization - theme custom semantic colors
-// $theme-custom-semantic-colors: (
-// );
-
 $theme-custom-semantic-colors: (
+);
+
+// TAMU Customization - theme custom semantic colors
+$theme-colors: (
       primary: $primary,
       secondary: $secondary,
       success: $green,

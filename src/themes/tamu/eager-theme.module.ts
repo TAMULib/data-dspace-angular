@@ -1,61 +1,43 @@
-import { CdkTreeModule } from '@angular/cdk/tree';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CommunityListService } from '../../app/community-list-page/community-list-service';
-import { CommunityPageModule } from '../../app/community-page/community-page.module';
-import { NavbarModule } from '../../app/navbar/navbar.module';
+
 import { RootModule } from '../../app/root.module';
-import { SharedBrowseByModule } from '../../app/shared/browse-by/shared-browse-by.module';
-import { ComcolModule } from '../../app/shared/comcol/comcol.module';
-import { DsoPageModule } from '../../app/shared/dso-page/dso-page.module';
-import { FormModule } from '../../app/shared/form/form.module';
-import { ResultsBackButtonModule } from '../../app/shared/results-back-button/results-back-button.module';
-import { SharedModule } from '../../app/shared/shared.module';
-import { StatisticsModule } from '../../app/statistics/statistics.module';
-import { HeaderNavbarWrapperComponent } from './app/header-nav-wrapper/header-navbar-wrapper.component';
 import { HeaderComponent } from './app/header/header.component';
+import { HeaderNavbarWrapperComponent } from './app/header-nav-wrapper/header-navbar-wrapper.component';
 import { HomeNewsComponent } from './app/home-page/home-news/home-news.component';
+import { NavbarComponent } from './app/navbar/navbar.component';
+
+// TAMU Customizations
 import { LoginPageComponent } from './app/login-page/login-page.component';
 import { LogoutPageComponent } from './app/logout-page/logout-page.component';
-import { NavbarComponent } from './app/navbar/navbar.component';
+// END TAMU Customizations
 
 /**
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
  * This will ensure that decorator gets picked up when the app loads
  */
-const ENTRY_COMPONENTS = [
-
-];
+const ENTRY_COMPONENTS = [];
 
 const DECLARATIONS = [
   ...ENTRY_COMPONENTS,
   HomeNewsComponent,
   HeaderComponent,
   HeaderNavbarWrapperComponent,
-  LoginPageComponent,
-  LogoutPageComponent,
   NavbarComponent,
+  // TAMU Customizations
+  LoginPageComponent,
+  LogoutPageComponent
+  // END TAMU Customizations
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    FormModule,
-    SharedModule,
-    SharedBrowseByModule,
-    ResultsBackButtonModule,
     RootModule,
-    NavbarModule,
-    ComcolModule,
-    DsoPageModule,
-    StatisticsModule,
-    CommunityPageModule,
-    CdkTreeModule,
+    ...DECLARATIONS,
   ],
-  declarations: DECLARATIONS,
   providers: [
-    ...ENTRY_COMPONENTS.map((component) => ({provide: component})),
-    CommunityListService,
+    ...ENTRY_COMPONENTS.map((component) => ({ provide: component })),
   ],
 })
 /**
