@@ -11,14 +11,13 @@ import { ComcolPageBrowseByComponent } from './app/shared/comcol-page-browse-by/
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
  * This will ensure that decorator gets picked up when the app loads
  */
-const ENTRY_COMPONENTS = [
+const ENTRY_COMPONENTS = [];
+
+const DECLARATIONS = [
+  ...ENTRY_COMPONENTS,
   ComcolPageBrowseByComponent,
   RdcItemPageAbstractFieldComponent,
   UntypedItemComponent
-];
-
-const DECLARATIONS = [
-  ...ENTRY_COMPONENTS
 ];
 
 @NgModule({
@@ -33,8 +32,9 @@ const DECLARATIONS = [
     //ItemPageModule,
     //ItemSharedModule,
     //DsoPageModule,
+
+    ...DECLARATIONS,
   ],
-  declarations: DECLARATIONS,
   providers: [
     ...ENTRY_COMPONENTS.map((component) => ({ provide: component })),
     { provide: DSONameService, useClass: RdcDSONameService }
