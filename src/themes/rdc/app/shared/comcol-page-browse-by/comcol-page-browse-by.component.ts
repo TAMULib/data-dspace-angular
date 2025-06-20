@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatestWith, filter, map, Observable, of, switchMap } from 'rxjs';
 
 import { getCollectionPageRoute } from '../../../../../app/collection-page/collection-page-routing-paths';
@@ -11,8 +14,11 @@ import { PaginatedList } from '../../../../../app/core/data/paginated-list.model
 import { BrowseDefinition } from '../../../../../app/core/shared/browse-definition.model';
 import { Collection } from '../../../../../app/core/shared/collection.model';
 import { getFirstCompletedRemoteData } from '../../../../../app/core/shared/operators';
-import { ComcolPageBrowseByComponent as BaseComponent } from '../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
+import { ComcolPageBrowseByComponent as BaseComponent, ComColPageNavOption } from '../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
 import { followLink } from '../../../../../app/shared/utils/follow-link-config.model';
+
+import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
+import { RemoteData } from '../../../../../app/core/data/remote-data';
 
 const dateissued = 'dateissued';
 const author = 'author';
@@ -33,7 +39,14 @@ const name = 'name';
   // styleUrls: ['./comcol-page-browse-by.component.scss'],
   styleUrls: ['../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.scss'],
   // templateUrl: './comcol-page-browse-by.component.html'
-  templateUrl: '../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.html'
+  templateUrl: '../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.html',
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    FormsModule,
+    RouterLink,
+    TranslateModule,
+  ],
 })
 export class ComcolPageBrowseByComponent extends BaseComponent {
 
@@ -45,13 +58,14 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
   };
 
   constructor(
+    @Inject(APP_CONFIG) readonly _appConfig: AppConfig,
     readonly _route: ActivatedRoute,
     readonly _router: Router,
     readonly _browseService: BrowseService,
     readonly _communityService: CommunityDataService,
     readonly _collectionService: CollectionDataService,
   ) {
-    super(_route, _router, _browseService);
+    super(_appConfig, _router, _browseService);
   }
 
   ngOnInit(): void {
@@ -73,42 +87,52 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
         dsoObs = of();
     }
 
-    this._browseService.getBrowseDefinitions()
-      .pipe(
-        getFirstCompletedRemoteData<PaginatedList<BrowseDefinition>>(),
-        combineLatestWith(dsoObs),
-      ).subscribe(([browseDefListRD, collections]) => {
+    // Determine if browse by options is working correctly without integrating the customization.
+    // If collection view is still containing unrelated browse by for the entity type,
+    // please integrate customiztion by filtering out the browse by links according to the above
+    // browseByMap.
 
-        const browseByOptions = this.getBrowseByOptionsForCollections(collections);
-
+    this.allOptions$ = this._browseService.getBrowseDefinitions().pipe(
+      getFirstCompletedRemoteData(),
+      map((browseDefListRD: RemoteData<PaginatedList<BrowseDefinition>>) => {
+        const allOptions: ComColPageNavOption[] = [];
         if (browseDefListRD.hasSucceeded) {
-          this.allOptions = browseDefListRD.payload.page
-            .filter((config: BrowseDefinition) => browseByOptions.indexOf(config.id) >= 0)
-            .map((config: BrowseDefinition) => ({
-              id: config.id,
-              label: `browse.comcol.by.${config.id}`,
-              routerLink: `/browse/${config.id}`,
-              params: { scope: this.id }
-            }));
-
+          let comColRoute: string;
           if (this.contentType === 'collection') {
-            this.allOptions = [{
-              id: this.id,
-              label: 'collection.page.browse.recent.head',
-              routerLink: getCollectionPageRoute(this.id)
-            }, ...this.allOptions];
+            comColRoute = getCollectionPageRoute(this.id);
+            allOptions.push({
+              id: 'search',
+              label: 'collection.page.browse.search.head',
+              routerLink: `${comColRoute}/search`,
+            });
           } else if (this.contentType === 'community') {
-            this.allOptions = [{
-              id: this.id,
+            comColRoute = getCommunityPageRoute(this.id);
+            allOptions.push({
+              id: 'search',
+              label: 'collection.page.browse.search.head',
+              routerLink: `${comColRoute}/search`,
+            });
+            allOptions.push({
+              id: 'comcols',
               label: 'community.all-lists.head',
-              routerLink: getCommunityPageRoute(this.id)
-            }, ...this.allOptions];
+              routerLink: `${comColRoute}/subcoms-cols`,
+            });
+          }
+
+          allOptions.push(...browseDefListRD.payload.page.map((config: BrowseDefinition) => ({
+            id: `browse_${config.id}`,
+            label: `browse.comcol.by.${config.id}`,
+            routerLink: `${comColRoute}/browse/${config.id}`,
+          })));
+
+          // When the default tab is not the "search" tab, the "search" tab is moved
+          // at the end of the tabs ribbon for aesthetics purposes.
+          if (this.appConfig[this.contentType].defaultBrowseTab !== 'search') {
+            allOptions.push(allOptions.shift());
           }
         }
-      });
-
-    this.currentOptionId$ = this._route.params.pipe(
-      map((params: Params) => params.id)
+        return allOptions;
+      }),
     );
   }
 
