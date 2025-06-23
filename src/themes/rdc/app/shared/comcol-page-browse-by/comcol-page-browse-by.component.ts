@@ -77,7 +77,7 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
             map((dso) => dso?.payload),
             filter((dso) => (dso as any)?.collections),
             switchMap((dso) => (dso as any).collections
-              .pipe(map((collections: any) => collections?.payload?.page || [])))) as Observable<Collection[]>;
+              .pipe(map((collections: any) => collections?.payload?.page ?? [])))) as Observable<Collection[]>;
         break;
       case 'collection':
         dsoObs = this._collectionService.findById(this.id, true, false)
@@ -94,7 +94,8 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
 
     this.allOptions$ = this._browseService.getBrowseDefinitions().pipe(
       getFirstCompletedRemoteData(),
-      map((browseDefListRD: RemoteData<PaginatedList<BrowseDefinition>>) => {
+      combineLatestWith(dsoObs),
+      map(([browseDefListRD, collections]) => {
         const allOptions: ComColPageNavOption[] = [];
         if (browseDefListRD.hasSucceeded) {
           let comColRoute: string;
@@ -117,6 +118,10 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
               label: 'community.all-lists.head',
               routerLink: `${comColRoute}/subcoms-cols`,
             });
+
+            const browseByOptions = this.getBrowseByOptionsForCollections(collections);
+
+            allOptions.splice(0, allOptions.length, ...allOptions.filter(config => browseByOptions.indexOf(config.id) >= 0));
           }
 
           allOptions.push(...browseDefListRD.payload.page.map((config: BrowseDefinition) => ({
