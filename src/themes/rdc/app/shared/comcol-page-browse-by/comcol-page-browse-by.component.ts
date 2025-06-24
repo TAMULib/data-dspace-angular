@@ -69,6 +69,7 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+    console.log('initializing custom ComcolPageBrowseByComponent');
     let dsoObs: Observable<Collection[]>;
     switch (this.contentType) {
       case 'community':
@@ -96,6 +97,8 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
       getFirstCompletedRemoteData(),
       combineLatestWith(dsoObs),
       map(([browseDefListRD, collections]) => {
+        console.log('collections', collections);
+
         const allOptions: ComColPageNavOption[] = [];
         if (browseDefListRD.hasSucceeded) {
           let comColRoute: string;
@@ -121,7 +124,13 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
 
             const browseByOptions = this.getBrowseByOptionsForCollections(collections);
 
+            console.log('all options before', allOptions);
+
+            console.log('browse by options', browseByOptions);
+
             allOptions.splice(0, allOptions.length, ...allOptions.filter(config => browseByOptions.indexOf(config.id) >= 0));
+
+            console.log('all options after', allOptions);
           }
 
           allOptions.push(...browseDefListRD.payload.page.map((config: BrowseDefinition) => ({
@@ -136,6 +145,8 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
             allOptions.push(allOptions.shift());
           }
         }
+
+        console.log('all options returned', allOptions);
         return allOptions;
       }),
     );
