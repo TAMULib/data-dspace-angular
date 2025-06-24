@@ -23,16 +23,7 @@ const DECLARATIONS = [
 @NgModule({
   imports: [
     CommonModule,
-    // move modules to imports where used in standalone components
-    //SharedModule,
     RootModule,
-    //NavbarModule,
-    //SharedBrowseByModule,
-    //ResultsBackButtonModule,
-    //ItemPageModule,
-    //ItemSharedModule,
-    //DsoPageModule,
-
     ...DECLARATIONS,
   ],
   providers: [
