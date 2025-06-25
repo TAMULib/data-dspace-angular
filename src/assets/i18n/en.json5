@@ -1105,13 +1105,17 @@
 
   "browse.startsWith.months.september": "September",
 
+  "browse.startsWith.placeholder": "Enter the first few letters",
+
   "browse.startsWith.submit": "Browse",
 
   "browse.startsWith.type_date": "Filter results by date",
 
   "browse.startsWith.type_date.label": "Or type in a date (year-month) and click on the Browse button",
 
-  "browse.startsWith.type_text": "Filter results by typing the first few letters",
+  "browse.startsWith.type_text": "To browse a location in the index, enter the first few letters. For a general search, click ",
+
+  "browse.startsWith.here": "here",
 
   "browse.startsWith.input": "Filter",
 
