@@ -14,7 +14,6 @@ import { CollectionsComponent } from '../../../../../../../app/item-page/field-c
 import { ThemedMediaViewerComponent } from '../../../../../../../app/item-page/media-viewer/themed-media-viewer.component';
 import { MiradorViewerComponent } from '../../../../../../../app/item-page/mirador-viewer/mirador-viewer.component';
 import { ThemedFileSectionComponent } from '../../../../../../../app/item-page/simple/field-components/file-section/themed-file-section.component';
-import { ItemPageAbstractFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/abstract/item-page-abstract-field.component';
 import { ItemPageCcLicenseFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/cc-license/item-page-cc-license-field.component';
 import { ItemPageDateFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/date/item-page-date-field.component';
 import { GenericItemPageFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/generic/generic-item-page-field.component';
@@ -48,14 +47,13 @@ import { RdcItemPageAbstractFieldComponent } from '../../field-components/specif
     DsoEditMenuComponent,
     GenericItemPageFieldComponent,
     GeospatialItemPageFieldComponent,
-    ItemPageAbstractFieldComponent,
+    RdcItemPageAbstractFieldComponent,
     ItemPageCcLicenseFieldComponent,
     ItemPageDateFieldComponent,
     ItemPageUriFieldComponent,
     MetadataFieldWrapperComponent,
     MiradorViewerComponent,
     NgClass,
-    RdcItemPageAbstractFieldComponent,
     RouterLink,
     ThemedFileSectionComponent,
     ThemedItemPageTitleFieldComponent,
