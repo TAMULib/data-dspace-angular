@@ -1,25 +1,24 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, EventType, NavigationEnd, Router, RouterLink, Scroll } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatestWith, filter, map, Observable, of, switchMap } from 'rxjs';
 
-import { getCollectionPageRoute } from '../../../../../app/collection-page/collection-page-routing-paths';
-import { getCommunityPageRoute } from '../../../../../app/community-page/community-page-routing-paths';
-import { BrowseService } from '../../../../../app/core/browse/browse.service';
-import { CollectionDataService } from '../../../../../app/core/data/collection-data.service';
-import { CommunityDataService } from '../../../../../app/core/data/community-data.service';
-import { PaginatedList } from '../../../../../app/core/data/paginated-list.model';
-import { BrowseDefinition } from '../../../../../app/core/shared/browse-definition.model';
-import { Collection } from '../../../../../app/core/shared/collection.model';
-import { getFirstCompletedRemoteData } from '../../../../../app/core/shared/operators';
-import { ComcolPageBrowseByComponent as BaseComponent, ComColPageNavOption } from '../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
-import { followLink } from '../../../../../app/shared/utils/follow-link-config.model';
+import { combineLatest, combineLatestWith, distinctUntilChanged, filter, map, Observable, of, startWith, switchMap, take } from 'rxjs';
+import { getCollectionPageRoute } from 'src/app/collection-page/collection-page-routing-paths';
+import { getCommunityPageRoute } from 'src/app/community-page/community-page-routing-paths';
+import { BrowseService } from 'src/app/core/browse/browse.service';
+import { CollectionDataService } from 'src/app/core/data/collection-data.service';
+import { CommunityDataService } from 'src/app/core/data/community-data.service';
+import { BrowseDefinition } from 'src/app/core/shared/browse-definition.model';
+import { Collection } from 'src/app/core/shared/collection.model';
+import { getFirstCompletedRemoteData } from 'src/app/core/shared/operators';
+import { isNotEmpty } from 'src/app/shared/empty.util';
+import { followLink } from 'src/app/shared/utils/follow-link-config.model';
+import { APP_CONFIG, AppConfig } from 'src/config/app-config.interface';
+import { ComcolPageBrowseByComponent as BaseComponent, ComColPageNavOption } from '../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
 
-import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
-import { RemoteData } from '../../../../../app/core/data/remote-data';
-
+// TAMU Customization
 const dateissued = 'dateissued';
 const author = 'author';
 const title = 'title';
@@ -29,17 +28,18 @@ const fundingAgency = 'fundingAgency';
 const awardNumber = 'awardNumber';
 const type = 'type';
 const name = 'name';
+// END TAMU Customization
 
 /**
  * A component to display the "Browse By" section of a Community or Collection page
  * It expects the ID of the Community or Collection as input to be passed on as a scope
  */
 @Component({
-  selector: 'ds-comcol-page-browse-by',
+  selector: 'ds-themed-comcol-page-browse-by',
   // styleUrls: ['./comcol-page-browse-by.component.scss'],
-  styleUrls: ['../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.scss'],
+  styleUrls: ['../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.scss'],
   // templateUrl: './comcol-page-browse-by.component.html'
-  templateUrl: '../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.html',
+  templateUrl: '../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.html',
   standalone: true,
   imports: [
     AsyncPipe,
@@ -50,13 +50,16 @@ const name = 'name';
 })
 export class ComcolPageBrowseByComponent extends BaseComponent {
 
+  // TAMU Customization
   readonly browseByMap = {
     'All': [dateissued, author, title, subject, department, fundingAgency, awardNumber, type],
     'Dataset': [dateissued, author, title, subject],
     'PDAC': [dateissued, department, name],
     'ResearchProject': [dateissued, author, title, subject, department, fundingAgency, awardNumber],
   };
+  // END TAMU Customization
 
+  // TAMU Customization
   constructor(
     @Inject(APP_CONFIG) readonly _appConfig: AppConfig,
     readonly _route: ActivatedRoute,
@@ -67,9 +70,12 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
   ) {
     super(_appConfig, _router, _browseService);
   }
+  // END TAMU Customization
 
+  // TAMU Customization
   ngOnInit(): void {
-    console.log('initializing custom ComcolPageBrowseByComponent');
+
+    // get collections for given scope
     let dsoObs: Observable<Collection[]>;
     switch (this.contentType) {
       case 'community':
@@ -88,17 +94,10 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
         dsoObs = of();
     }
 
-    // Determine if browse by options is working correctly without integrating the customization.
-    // If collection view is still containing unrelated browse by for the entity type,
-    // please integrate customiztion by filtering out the browse by links according to the above
-    // browseByMap.
-
     this.allOptions$ = this._browseService.getBrowseDefinitions().pipe(
       getFirstCompletedRemoteData(),
       combineLatestWith(dsoObs),
       map(([browseDefListRD, collections]) => {
-        console.log('collections', collections);
-
         const allOptions: ComColPageNavOption[] = [];
         if (browseDefListRD.hasSucceeded) {
           let comColRoute: string;
@@ -121,19 +120,13 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
               label: 'community.all-lists.head',
               routerLink: `${comColRoute}/subcoms-cols`,
             });
-
-            const browseByOptions = this.getBrowseByOptionsForCollections(collections);
-
-            console.log('all options before', allOptions);
-
-            console.log('browse by options', browseByOptions);
-
-            allOptions.splice(0, allOptions.length, ...allOptions.filter(config => browseByOptions.indexOf(config.id) >= 0));
-
-            console.log('all options after', allOptions);
           }
 
-          allOptions.push(...browseDefListRD.payload.page.map((config: BrowseDefinition) => ({
+          // get browse by options for all collections
+          const browseByOptions = this.getBrowseByOptionsForCollections(collections);
+
+          // reduce the browse by options only pertaining to the applicable collections
+          allOptions.push(...browseDefListRD.payload.page.filter(config => browseByOptions.indexOf(config.id) >= 0).map((config: BrowseDefinition) => ({
             id: `browse_${config.id}`,
             label: `browse.comcol.by.${config.id}`,
             routerLink: `${comColRoute}/browse/${config.id}`,
@@ -145,13 +138,54 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
             allOptions.push(allOptions.shift());
           }
         }
-
-        console.log('all options returned', allOptions);
         return allOptions;
       }),
     );
-  }
 
+    let comColRoute: string;
+    if (this.contentType === 'collection') {
+      comColRoute = getCollectionPageRoute(this.id);
+    } else if (this.contentType === 'community') {
+      comColRoute = getCommunityPageRoute(this.id);
+    }
+
+    this.subs.push(combineLatest([
+      this.allOptions$,
+      this.router.events.pipe(
+        startWith(this.router),
+        filter((next: Router|Scroll) => (isNotEmpty((next as Router)?.url) || (next as Scroll)?.type === EventType.Scroll)),
+        map((next: Router|Scroll) => (next as Router)?.url || ((next as Scroll).routerEvent as NavigationEnd).urlAfterRedirects),
+        distinctUntilChanged(),
+      ),
+    ]).subscribe(([navOptions, url]: [ComColPageNavOption[], string]) => {
+      for (const option of navOptions) {
+        if (url?.split('?')[0] === comColRoute && option.id === this.appConfig[this.contentType].defaultBrowseTab) {
+          void this.router.navigate([option.routerLink], { queryParams: option.params });
+          break;
+        } else if (option.routerLink === url?.split('?')[0]) {
+          this.currentOption$.next(option);
+          break;
+        }
+      }
+    }));
+
+    if (this.router.url?.split('?')[0] === comColRoute) {
+      this.allOptions$.pipe(
+        take(1),
+      ).subscribe((allOptions: ComColPageNavOption[]) => {
+        for (const option of allOptions) {
+          if (option.id === this.appConfig[this.contentType].defaultBrowseTab) {
+            this.currentOption$.next(option[0]);
+            void this.router.navigate([option.routerLink], { queryParams: option.params });
+            break;
+          }
+        }
+      });
+    }
+  }
+  // END TAMU Customization
+
+  // TAMU Customization
   getBrowseByOptionsForCollections(collections: Collection[] = []): any[] {
     const uniqueBrowseByOptions = new Set();
 
@@ -171,5 +205,6 @@ export class ComcolPageBrowseByComponent extends BaseComponent {
 
     return Array.from(uniqueBrowseByOptions);
   }
+  // END TAMU Customization
 
 }
