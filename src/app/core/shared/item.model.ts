@@ -5,7 +5,7 @@ import {
   deserializeAs,
   inheritSerialization,
 } from 'cerialize';
-import { Observable, of, switchMap } from 'rxjs';
+import { distinctUntilChanged, Observable, of, switchMap, take } from 'rxjs';
 import { AccessStatusObject } from 'src/app/shared/object-collection/shared/badges/access-status-badge/access-status.model';
 import { ACCESS_STATUS } from 'src/app/shared/object-collection/shared/badges/access-status-badge/access-status.resource-type';
 
@@ -124,52 +124,43 @@ export class Item extends DSpaceObject implements ChildHALResource, HandleObject
    * Will be undefined unless the thumbnail {@link HALLink} has been resolved.
    */
   @link(BITSTREAM, false, 'thumbnail')
-  thumbnail?: Observable<RemoteData<Bitstream>>;
   // TAMU Customization: override thumbnail getter to return default thumbnail per entity type
-  /* Broken on upgrade (BOU)
+  // thumbnail?: Observable<RemoteData<Bitstream>>;
   _thumbnail?: Observable<RemoteData<Bitstream>>;
 
   public get thumbnail(): Observable<RemoteData<Bitstream>> {
+    const type = this.metadata?.['dspace.entity.type']?.[0]?.value;
+    if (type) {
+      switch (type) {
+        case 'Dataset':
+          return of(this.bitstream('assets/images/dataset-placeholder.svg'));
+        case 'PDAC':
+          return of(this.bitstream('assets/images/person-placeholder.svg'));
+        case 'ResearchProject':
+          return of(this.bitstream('assets/images/research-project-placeholder.svg'));
+      }
+    }
 
-    const bitstream = (href): RemoteData<Bitstream> => new RemoteData(
-      0, 0, 0, undefined, undefined,
-      {
-        sizeBytes: 0,
-        description: '',
-        bundleName: '',
-        _links: {
-          content: {
-            href
-          }
-        }
-      } as Bitstream
-    );
-
-    return this._thumbnail.pipe(
-      switchMap(bs => {
-        if (bs?.payload === undefined || bs?.payload === null) {
-          const type = this.metadata?.['dspace.entity.type']?.[0]?.value;
-
-          if (type) {
-            switch (type) {
-              case 'Dataset':
-                return of(bitstream('assets/images/dataset-placeholder.svg'));
-              case 'PDAC':
-                return of(bitstream('assets/images/person-placeholder.svg'));
-              case 'ResearchProject':
-                return of(bitstream('assets/images/research-project-placeholder.svg'));
-            }
-          }
-        }
-
-        return of(bs);
-      })
-    );
+    return this._thumbnail;
   }
 
   public set thumbnail(thumbnail: Observable<RemoteData<Bitstream>>) {
     this._thumbnail = thumbnail;
   }
+
+  private readonly bitstream = (href): RemoteData<Bitstream> => new RemoteData(
+    0, 0, 0, undefined, undefined,
+    {
+      sizeBytes: 0,
+      description: '',
+      bundleName: '',
+      _links: {
+        content: {
+          href
+        }
+      }
+    } as Bitstream
+  );
   // END TAMU Customization: override thumbnail getter to return default thumbnail per entity type
 
   /**
