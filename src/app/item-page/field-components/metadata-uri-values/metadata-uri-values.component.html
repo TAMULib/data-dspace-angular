@@ -1,4 +1,3 @@
-<!-- From upstream DSpace 7 https://github.com/DSpace/dspace-angular/pull/2866/files -->
 <ds-metadata-field-wrapper [label]="label | translate">
   @for (mdValue of mdValues; track mdValue; let last = $last) {
     <a class="dont-break-out" [href]="mdValue.value" [target]="hasInternalLink(mdValue.value) ? '_self' : '_blank'" role="link" tabindex="0">

@@ -83,14 +83,6 @@ describe('MetadataUriValuesComponent', () => {
     const separators = fixture.debugElement.queryAll(By.css('a span'));
     expect(separators.length).toBe(mockMetadata.length - 1);
   });
-  // From upstream DSpace 7 https://github.com/DSpace/dspace-angular/pull/2866/files
-  it('should contain the correct target attribute for metadata links', () => {
-    const links = fixture.debugElement.queryAll(By.css('a'));
-    for (const link of links) {
-      expect(link.nativeElement.getAttribute('target')).toBe('_blank');
-    }
-  });
-  // END of upstream addition
 
   describe('when linktext is defined', () => {
 

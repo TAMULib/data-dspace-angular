@@ -182,7 +182,7 @@
           <ul class="list-unstyled">
             @for (uri of object.allMetadata('dc.relation.associatedPublicationURI'); track uri) {
               <li>
-                <a href="{{uri.value}}" class="uri-truncate">
+                <a href="{{uri.value}}" class="uri-truncate" target="_blank">
                   {{uri.value}}
                 </a>
               </li>
