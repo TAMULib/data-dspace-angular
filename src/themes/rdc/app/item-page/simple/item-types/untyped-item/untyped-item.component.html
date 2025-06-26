@@ -1,63 +1,73 @@
-<ds-themed-results-back-button *ngIf="showBackButton | async" [back]="back"></ds-themed-results-back-button>
-<div class="row" *ngIf="iiifEnabled">
-  <div class="col-12">
-    <ds-mirador-viewer id="iiif-viewer"
-                   [object]="object"
-                   [searchable]="iiifSearchEnabled"
-                   [query]="iiifQuery$ | async">
-    </ds-mirador-viewer>
+@if (showBackButton$ | async) {
+  <ds-results-back-button [back]="back"></ds-results-back-button>
+}
+@if (iiifEnabled) {
+  <div class="row">
+    <div class="col-12">
+      <ds-mirador-viewer id="iiif-viewer"
+        [object]="object"
+        [searchable]="iiifSearchEnabled"
+        [query]="iiifQuery$ | async">
+      </ds-mirador-viewer>
+    </div>
   </div>
-</div>
+}
 
 <div class="d-flex flex-row">
-  <ds-themed-item-page-title-field [item]="object" class="mr-auto">
-  </ds-themed-item-page-title-field>
+  <ds-item-page-title-field [item]="object" class="me-auto">
+  </ds-item-page-title-field>
   <ds-dso-edit-menu></ds-dso-edit-menu>
 </div>
 <div class="row">
   <div class="col-xs-12 col-md-4">
-    <ng-container *ngIf="!(mediaViewer.image || mediaViewer.video)">
+    @if (!(mediaViewer.image || mediaViewer.video)) {
       <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
-        <ds-themed-thumbnail [thumbnail]="object?.thumbnail | async"></ds-themed-thumbnail>
+        <ds-thumbnail [thumbnail]="object?.thumbnail | async"></ds-thumbnail>
       </ds-metadata-field-wrapper>
-    </ng-container>
-    <div *ngIf="mediaViewer.image || mediaViewer.video" class="mb-2">
-      <ds-themed-media-viewer [item]="object"></ds-themed-media-viewer>
-    </div>
-    <ds-themed-item-page-file-section [item]="object"></ds-themed-item-page-file-section>
+    }
+    @if (mediaViewer.image || mediaViewer.video) {
+      <div class="mb-2">
+        <ds-media-viewer [item]="object"></ds-media-viewer>
+      </div>
+    }
+    <ds-item-page-file-section [item]="object"></ds-item-page-file-section>
     <ds-item-page-date-field [item]="object"></ds-item-page-date-field>
-    <ds-themed-metadata-representation-list class="ds-item-page-mixed-author-field"
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
       [itemType]="'Person'"
       [metadataFields]="['dc.contributor.author', 'dc.creator']"
-      [label]="'relationships.isAuthorOf' | translate">
-    </ds-themed-metadata-representation-list>
+      [label]="'item.page.authors' | translate">
+    </ds-metadata-representation-list>
     <!-- TAMU Customization - Principal Investigator  -->
-    <ds-themed-metadata-representation-list class="ds-item-page-mixed-author-field"
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
       [itemType]="'Person'"
       [metadataFields]="['dc.creator.pi']"
       [label]="'item.page.principal-investigators' | translate">
-    </ds-themed-metadata-representation-list>
+    </ds-metadata-representation-list>
     <!-- END TAMU Customization - Principal Investigator  -->
     <!-- TAMU Customization - Co-Principal Investigator -->
-    <div class="simple-item-view-element" *ngIf="hasCoPrincipalInvestigator(object)">
-      <h2 class="simple-view-element-header fs-4">{{"item.page.co-principal-investigators" | translate}}</h2>
-      <div class="mb-2">
-        <ul class="list-unstyled">
-          <li *ngFor="let copi of object.allMetadata('dc.creator.copi')">
-            <span>{{copi.value}}</span>
-          </li>
-        </ul>
+    @if (hasCoPrincipalInvestigator(object)) {
+      <div class="simple-item-view-element">
+        <h2 class="simple-view-element-header fs-4">{{"item.page.co-principal-investigators" | translate}}</h2>
+        <div class="mb-2">
+          <ul class="list-unstyled">
+            @for (copi of object.allMetadata('dc.creator.copi'); track copi) {
+              <li>
+                <span>{{copi.value}}</span>
+              </li>
+            }
+          </ul>
+        </div>
       </div>
-    </div>
+    }
     <!-- END TAMU Customization - Co-Principal Investigator -->
     <!-- TAMU Customization - Department  -->
-    <ds-themed-metadata-representation-list class="ds-item-page-mixed-author-field"
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
       [parentItem]="object"
       [metadataFields]="['dc.contributor.department']"
       [label]="'item.page.department' | translate">
-    </ds-themed-metadata-representation-list>
+    </ds-metadata-representation-list>
     <!-- END TAMU Customization - Department  -->
     <ds-generic-item-page-field [item]="object"
       [fields]="['journal.title']"
@@ -80,20 +90,27 @@
 
     <!-- TAMU Customization - Expand/collapse abstract -->
     <!-- <ds-item-page-abstract-field [item]="object"></ds-item-page-abstract-field> -->
-    <div class="truncate-container clearfix" *ngIf="hasAbstract(object)">
-      <div class="content-wrapper" [ngClass]="{ 'expanded': expanded }">
-        <div class="content">
-          <rdc-ds-item-page-abstract-field [item]="object" [label]="getAbstractLabel(object)"></rdc-ds-item-page-abstract-field>
+    @if (hasAbstract(object)) {
+      <div class="truncate-container clearfix">
+        <div class="content-wrapper" [ngClass]="{ 'expanded': expanded }">
+          <div class="content">
+            <rdc-ds-item-page-abstract-field [item]="object" [label]="getAbstractLabel(object)"></rdc-ds-item-page-abstract-field>
+          </div>
+          @if (!expanded) {
+            <div class="fade-out"></div>
+          }
         </div>
-        <div class="fade-out" *ngIf="!expanded"></div>
+        <button class="btn btn-link expand-toggle mt-2 mb-2 float-right" (click)="toggleExpand()">
+          @if (!expanded) {
+            <span><i class="fa fa-chevron-down mr-1"></i>{{ 'item.truncatable-part.show-more' | translate }}</span>
+          }
+          @if (expanded) {
+            <span><i class="fa fa-chevron-up mr-1"></i>{{ 'item.truncatable-part.show-less' | translate }}</span>
+          }
+        </button>
       </div>
-      <button class="btn btn-link expand-toggle mt-2 mb-2 float-right" (click)="toggleExpand()">
-        <span *ngIf="!expanded"><i class="fa fa-chevron-down mr-1"></i>{{ 'item.truncatable-part.show-more' | translate }}</span>
-        <span *ngIf="expanded"><i class="fa fa-chevron-up mr-1"></i>{{ 'item.truncatable-part.show-less' | translate }}</span>
-      </button>
-    </div>
+    }
     <!-- END TAMU Customization - Expand/collapse abstract -->
-
     <ds-generic-item-page-field [item]="object"
       [fields]="['dc.description']"
       [label]="'item.page.description'">
@@ -108,66 +125,110 @@
       [fields]="['dc.identifier.citation']"
       [label]="'item.page.citation'">
     </ds-generic-item-page-field>
+    @if (geospatialItemPageFieldsEnabled) {
+      <ds-geospatial-item-page-field [item]="object"
+        [label]="'item.page.places'"
+        [pointFields]="['dcterms.spatial']"
+        [bboxFields]="['dcterms.spatial']"
+        [cluster]="true"
+        >
+      </ds-geospatial-item-page-field>
+    }
     <ds-item-page-uri-field [item]="object"
       [fields]="['dc.identifier.uri']"
       [label]="'item.page.uri'">
     </ds-item-page-uri-field>
+    <!-- TAMU Customization - Scholar profile URL -->
     <ds-item-page-uri-field [item]="object"
       [fields]="['dc.relation.profileurl']"
       [label]="'item.author.uri'">
     </ds-item-page-uri-field>
+    <!-- END TAMU Customization - Scholar profile URL -->
     <ds-item-page-collections [item]="object"></ds-item-page-collections>
 
     <!-- TAMU Customization - Research project link -->
-    <div class="simple-item-view-element mb-2" *ngIf="hasProject(object)">
-      <h2 class="simple-view-element-header fs-4">{{"item.page.research-project" | translate}}</h2>
-      <div *ngIf="hasProject(object)">
-        <a href="{{object.firstMetadataValue('dc.relation.sourceResearchProject')}}" role="button">
-          {{object.firstMetadataValue('dc.title.project')}}
-        </a>
+    @if (hasProject(object)) {
+      <div class="simple-item-view-element mb-2">
+        <h2 class="simple-view-element-header fs-4">{{"item.page.research-project" | translate}}</h2>
+        <div>
+          <a href="{{object.firstMetadataValue('dc.relation.sourceResearchProject')}}" role="button">
+            {{object.firstMetadataValue('dc.title.project')}}
+          </a>
+        </div>
       </div>
-    </div>
+    }
     <!-- END TAMU Customization - Research project link -->
 
-    <!-- TAMU Customization - dataset links -->
-    <div class="simple-item-view-element mb-2" *ngIf="hasDatasets(object)">
-      <h2 class="simple-view-element-header fs-4">{{"item.page.associated-datasets" | translate}}</h2>
-      <div *ngIf="getDatasets(object); let datasets">
-        <ul class="list-unstyled">
-          <li *ngFor="let dataset of datasets">
-            <a href="{{dataset.link}}">
-              {{dataset.title}}
-            </a>
-          </li>
-        </ul>
+    <!-- TAMU Customization - Associated dataset links -->
+    @if (hasDatasets(object)) {
+      <div class="simple-item-view-element mb-2">
+        <h2 class="simple-view-element-header fs-4">{{"item.page.associated-datasets" | translate}}</h2>
+        @if (getDatasets(object); as datasets) {
+          <div>
+            <ul class="list-unstyled">
+              @for (dataset of datasets; track dataset) {
+                <li>
+                  <a href="{{dataset.link}}">
+                    {{dataset.title}}
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        }
       </div>
-    </div>
-    <!-- END TAMU Customization - dataset links -->
+    }
+    <!-- END TAMU Customization - Associated dataset links -->
 
     <!-- TAMU Customization - Associated publication links -->
-    <div class="simple-item-view-element" *ngIf="hasAssociatedPublicationURI(object)">
-      <h2 class="simple-view-element-header fs-4">{{"item.page.associated-publications" | translate}}</h2>
-      <div class="mb-2" class="uri-truncate">
-        <ul class="list-unstyled">
-          <li *ngFor="let uri of object.allMetadata('dc.relation.associatedPublicationURI')">
-            <a href="{{uri.value}}" class="uri-truncate">
-              {{uri.value}}
-            </a>
-          </li>
-        </ul>
+    @if (hasAssociatedPublicationURI(object)) {
+      <div class="simple-item-view-element">
+        <h2 class="simple-view-element-header fs-4">{{"item.page.associated-publications" | translate}}</h2>
+        <div class="mb-2" class="uri-truncate">
+          <ul class="list-unstyled">
+            @for (uri of object.allMetadata('dc.relation.associatedPublicationURI'); track uri) {
+              <li>
+                <a href="{{uri.value}}" class="uri-truncate" target="_blank">
+                  {{uri.value}}
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
       </div>
-    </div>
+    }
     <!-- END TAMU Customization - Associated publication links -->
 
     <!-- TAMU Customization - RDC dataset link -->
-    <div class="mt-3 mb-2" *ngIf="object.firstMetadataValue('dcterms.source'); let source">
-      <a class="btn btn-outline-primary" href="{{source}}" role="button">
-        {{"item.page.source" | translate}}
-      </a>
-    </div>
+    @if (object.firstMetadataValue('dcterms.source'); as source) {
+      <div class="mt-3 mb-2">
+        <a class="btn btn-outline-primary" href="{{source}}" role="button">
+          {{"item.page.source" | translate}}
+        </a>
+      </div>
+    }
     <!-- END TAMU Customization - RDC dataset link -->
+
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['coar.notify.endorsedBy']"
+      [label]="'item.page.endorsement'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isReviewedBy']"
+      [label]="'item.page.review'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isSupplementedBy']"
+      [label]="'item.page.supplemented'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isReferencedBy']"
+      [label]="'item.page.referenced'">
+    </ds-item-page-uri-field>
+    <ds-item-page-cc-license-field [item]="object" [variant]="'full'">
+    </ds-item-page-cc-license-field>
     <div>
-      <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']" role="button">
+      <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']" role="button" role="button" tabindex="0">
         <i class="fas fa-info-circle"></i> {{"item.page.link.full" | translate}}
       </a>
     </div>
