@@ -144,13 +144,11 @@
     @if (hasProject(object)) {
       <div class="simple-item-view-element mb-2">
         <h2 class="simple-view-element-header fs-4">{{"item.page.research-project" | translate}}</h2>
-        @if (hasProject(object)) {
-          <div>
-            <a href="{{object.firstMetadataValue('dc.relation.sourceResearchProject')}}" role="button">
-              {{object.firstMetadataValue('dc.title.project')}}
-            </a>
-          </div>
-        }
+        <div>
+          <a href="{{object.firstMetadataValue('dc.relation.sourceResearchProject')}}" role="button">
+            {{object.firstMetadataValue('dc.title.project')}}
+          </a>
+        </div>
       </div>
     }
     <!-- END TAMU Customization - Research project link -->
@@ -184,7 +182,7 @@
           <ul class="list-unstyled">
             @for (uri of object.allMetadata('dc.relation.associatedPublicationURI'); track uri) {
               <li>
-                <a href="{{uri.value}}" class="uri-truncate">
+                <a href="{{uri.value}}" class="uri-truncate" target="_blank">
                   {{uri.value}}
                 </a>
               </li>
