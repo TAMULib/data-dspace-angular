@@ -13,6 +13,7 @@ import { RdcDSONameService } from './app/core/breadcrumbs/rdc-dso-name.service';
 import { RdcItemPageAbstractFieldComponent } from './app/item-page/simple/field-components/specific-field/abstract/rdc-item-page-abstract-field.component';
 import { UntypedItemComponent } from './app/item-page/simple/item-types/untyped-item/untyped-item.component';
 import { ComcolPageBrowseByComponent } from './app/shared/comcol-page-browse-by/comcol-page-browse-by.component';
+import { StartsWithTextComponent } from './app/shared/starts-with/text/starts-with-text.component';
 
 /**
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
@@ -21,6 +22,7 @@ import { ComcolPageBrowseByComponent } from './app/shared/comcol-page-browse-by/
 const ENTRY_COMPONENTS = [
   ComcolPageBrowseByComponent,
   RdcItemPageAbstractFieldComponent,
+  StartsWithTextComponent,
   UntypedItemComponent
 ];
 
