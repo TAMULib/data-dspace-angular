@@ -138,6 +138,12 @@
       [fields]="['dc.identifier.uri']"
       [label]="'item.page.uri'">
     </ds-item-page-uri-field>
+    <!-- TAMU Customization - Scholar profile URL -->
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['dc.relation.profileurl']"
+      [label]="'item.author.uri'">
+    </ds-item-page-uri-field>
+    <!-- END TAMU Customization - Scholar profile URL -->
     <ds-item-page-collections [item]="object"></ds-item-page-collections>
 
     <!-- TAMU Customization - Research project link -->
@@ -153,7 +159,7 @@
     }
     <!-- END TAMU Customization - Research project link -->
 
-    <!-- TAMU Customization - dataset links -->
+    <!-- TAMU Customization - Associated dataset links -->
     @if (hasDatasets(object)) {
       <div class="simple-item-view-element mb-2">
         <h2 class="simple-view-element-header fs-4">{{"item.page.associated-datasets" | translate}}</h2>
@@ -172,7 +178,7 @@
         }
       </div>
     }
-    <!-- END TAMU Customization - dataset links -->
+    <!-- END TAMU Customization - Associated dataset links -->
 
     <!-- TAMU Customization - Associated publication links -->
     @if (hasAssociatedPublicationURI(object)) {
