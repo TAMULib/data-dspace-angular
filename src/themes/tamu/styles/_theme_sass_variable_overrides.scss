@@ -64,9 +64,6 @@ $red: #CF4444 !default;
 $dark: #333333 !default;
 // END TAMU Customization - custom colors
 
-// Define or override other colors here
-// ...
-
 // Override semantic colors here
 
 // TAMU Customization - custom theme variables
@@ -78,38 +75,37 @@ $accent: #FCE300;
 // $secondary: #495057;  // As Bootstrap $gray-700
 // END TAMU Customization - custom theme variables
 $success:   #92c642;  // Lime
-$info:      #207698;  // Light blue
+$info:      #1e6f90;  // Light blue
 $warning:   #ec9433;  // Orange
 $danger:    #cf4444;  // Red
 $light:     #f8f9fa;  // As Bootstrap $gray-100
-$dark:      #43515f;  // Gray
+$dark:      #43515f;  // Dark blue
 
 // Add new semantic colors here (you don't need to add existing semantic colors)
-// TAMU Customization - custom theme colors
-// $theme-colors: (
-//   // ...
-// );
+$theme-custom-semantic-colors: (
+);
 
+// TAMU Customization - theme custom semantic colors
 $theme-colors: (
-        primary: $primary,
-        secondary: $secondary,
-        success: $green,
-        info: $cyan,
-        warning: $yellow,
-        danger: $red,
-        light: $gray-100,
-        dark: $dark
+      primary: $primary,
+      secondary: $secondary,
+      success: $green,
+      info: $cyan,
+      warning: $yellow,
+      danger: $red,
+      light: $gray-100,
+      dark: $dark
 ) !default;
-// END TAMU Customization - custom theme colors
+// END TAMU Customization - theme custom semantic colors
+
 
 /*** OTHER BOOTSTRAP VARIABLES ***/
 
-// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-$yiq-contrasted-threshold: 170;
+$min-contrast-ratio: 2.06 !default;
 
 // TAMU Customization - body color
 // $body-color: #343a40;       // As Bootstrap $gray-800
-$body-color: $gray-800 !default;    // Bootstrap $gray-800
+$body-color: $gray-800 !default; // Bootstrap $gray-800
 // END TAMU Customization - body color
 
 // TAMU Customization - link color
@@ -120,16 +116,15 @@ $link-decoration: none;
 $link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: underline;
 
-$table-accent-bg: #f8f9fa;  // As Bootstrap $gray-100
-$table-hover-bg: #ced4da;   // As Bootstrap $gray-400
+$table-accent-bg: #f8f9fa; // As Bootstrap $gray-100
+$table-hover-bg: #ced4da; // As Bootstrap $gray-400
 
-// TAMU Customization - navbar color
 $navbar-dark-color: #fff;
-// END TAMU Customization - navbar color
+
 
 /*** CUSTOM DSPACE VARIABLES ***/
 
-$ds-home-news-link-color: #92c642;
+$ds-home-news-link-color: #D2FC93;
 $ds-header-navbar-border-bottom-color: #92c642;
 
 $ds-breadcrumb-link-color: #154E66 !default;

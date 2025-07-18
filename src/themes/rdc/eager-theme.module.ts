@@ -1,46 +1,33 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DSONameService } from '../../app/core/breadcrumbs/dso-name.service';
-import { ItemPageModule } from '../../app/item-page/item-page.module';
-import { ItemSharedModule } from '../../app/item-page/item-shared.module';
-import { NavbarModule } from '../../app/navbar/navbar.module';
 import { RootModule } from '../../app/root.module';
-import { SharedBrowseByModule } from '../../app/shared/browse-by/shared-browse-by.module';
-import { DsoPageModule } from '../../app/shared/dso-page/dso-page.module';
-import { ResultsBackButtonModule } from '../../app/shared/results-back-button/results-back-button.module';
-import { SharedModule } from '../../app/shared/shared.module';
 import { RdcDSONameService } from './app/core/breadcrumbs/rdc-dso-name.service';
 import { RdcItemPageAbstractFieldComponent } from './app/item-page/simple/field-components/specific-field/abstract/rdc-item-page-abstract-field.component';
 import { UntypedItemComponent } from './app/item-page/simple/item-types/untyped-item/untyped-item.component';
-import { ComcolPageBrowseByComponent } from './app/shared/comcol-page-browse-by/comcol-page-browse-by.component';
+import { ComcolPageBrowseByComponent } from './app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
+import { StartsWithTextComponent } from './app/shared/starts-with/text/starts-with-text.component';
 
 /**
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
  * This will ensure that decorator gets picked up when the app loads
  */
-const ENTRY_COMPONENTS = [
-  ComcolPageBrowseByComponent,
-  RdcItemPageAbstractFieldComponent,
-  UntypedItemComponent
-];
+const ENTRY_COMPONENTS = [];
 
 const DECLARATIONS = [
-  ...ENTRY_COMPONENTS
+  ...ENTRY_COMPONENTS,
+  ComcolPageBrowseByComponent,
+  RdcItemPageAbstractFieldComponent,
+  StartsWithTextComponent,
+  UntypedItemComponent
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
     RootModule,
-    NavbarModule,
-    SharedBrowseByModule,
-    ResultsBackButtonModule,
-    ItemPageModule,
-    ItemSharedModule,
-    DsoPageModule,
+    ...DECLARATIONS,
   ],
-  declarations: DECLARATIONS,
   providers: [
     ...ENTRY_COMPONENTS.map((component) => ({ provide: component })),
     { provide: DSONameService, useClass: RdcDSONameService }
