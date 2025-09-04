@@ -1,0 +1,29 @@
+rest:
+  ssl: true
+  host: data-dev.library.tamu.edu
+  port: 443
+  nameSpace: /server
+
+themes:
+  - name: rdc
+    extends: tamu
+  - name: tamu
+    headTags:
+    - tagName: link
+      attributes:
+        rel: icon
+        href: assets/tamu/images/favicons/favicon.ico
+        sizes: any
+    - tagName: link
+      attributes:
+        rel: icon
+        href: assets/tamu/images/favicons/favicon.svg
+        type: image/svg+xml
+    - tagName: link
+      attributes:
+        rel: apple-touch-icon
+        href: assets/tamu/images/favicons/apple-touch-icon.png
+    - tagName: link
+      attributes:
+        rel: manifest
+        href: assets/tamu/images/favicons/manifest.webmanifest
