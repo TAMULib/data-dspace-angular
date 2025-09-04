@@ -160,6 +160,10 @@
   "search.filters.filter.sponsor.placeholder": "Funding Agency",
   "search.filters.filter.sponsor.label": "Funding Agency",
 
+  "browse.startsWith.input": "To browse a location in the index, enter the first few letters. ",
+  "browse.startsWith.type_text": "For a general search, click ",
   "browse.startsWith.here": "here",
+
+  "browse.startsWith.placeholder": "Enter the first few letters",
 
 }
