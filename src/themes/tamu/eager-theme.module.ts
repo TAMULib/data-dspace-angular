@@ -10,6 +10,7 @@ import { NavbarComponent } from './app/navbar/navbar.component';
 // TAMU Customizations
 import { LoginPageComponent } from './app/login-page/login-page.component';
 import { LogoutPageComponent } from './app/logout-page/logout-page.component';
+import { StartsWithTextComponent } from './app/shared/starts-with/text/starts-with-text.component';
 // END TAMU Customizations
 
 /**
@@ -26,7 +27,8 @@ const DECLARATIONS = [
   NavbarComponent,
   // TAMU Customizations
   LoginPageComponent,
-  LogoutPageComponent
+  LogoutPageComponent,
+  StartsWithTextComponent,
   // END TAMU Customizations
 ];
 
