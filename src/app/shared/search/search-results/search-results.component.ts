@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -56,6 +56,7 @@ export interface SelectionConfig {
   standalone: true,
   imports: [
     AsyncPipe,
+    CommonModule,
     ErrorComponent,
     NgxSkeletonLoaderModule,
     ObjectCollectionComponent,
@@ -126,6 +127,12 @@ export class SearchResultsComponent {
    * Defaults to a visible header
    */
   @Input() disableHeader = false;
+
+  /**
+   * Header level for the search results header
+   * Defaults to a span styled as h1.
+   */
+  @Input() headerLevel;
 
   /**
    * A boolean representing if result entries are selectable

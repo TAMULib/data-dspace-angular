@@ -47,6 +47,12 @@ export class ThemedConfigurationSearchPageComponent extends ThemedComponent<Conf
   @Input() fixedFilterQuery: string;
 
   /**
+   * Header level for the search results header.
+   * If empty, the header will be a span styled as a h1.
+   */
+  @Input() headerLevel: string;
+
+  /**
    * If this is true, the request will only be sent if there's
    * no valid cached version. Defaults to true
    */
@@ -152,6 +158,7 @@ export class ThemedConfigurationSearchPageComponent extends ThemedComponent<Conf
     'context',
     'configuration',
     'fixedFilterQuery',
+    'headerLevel',
     'useCachedVersionIfAvailable',
     'inPlaceSearch',
     'linkType',

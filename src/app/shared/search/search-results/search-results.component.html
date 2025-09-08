@@ -10,6 +10,23 @@
   </div>
 }
 
+<!-- TAMU Customization - single h1 element per community search page -->
+<div class="d-flex justify-content-between" [ngSwitch]="headerLevel">
+  @if (!disableHeader) {
+    <h1>Hello, {{headerLevel}}!</h1>
+    <h1 *ngSwitchCase="'h1'"><ng-container *ngTemplateOutlet="headerText"></ng-container></h1>
+    <h2 *ngSwitchCase="'h2'"><ng-container *ngTemplateOutlet="headerText"></ng-container></h2>
+    <h3 *ngSwitchCase="'h3'"><ng-container *ngTemplateOutlet="headerText"></ng-container></h3>
+    <h4 *ngSwitchCase="'h4'"><ng-container *ngTemplateOutlet="headerText"></ng-container></h4>
+    <h5 *ngSwitchCase="'h5'"><ng-container *ngTemplateOutlet="headerText"></ng-container></h5>
+    <span *ngSwitchDefault class="h1"><ng-container *ngTemplateOutlet="headerText"></ng-container></span>
+    <ng-template #headerText>{{ (configuration ? configuration + '.search.results.head' : 'search.results.head') | translate }}</ng-template>
+  }
+  @if (showCsvExport) {
+    <ds-search-export-csv [searchConfig]="searchConfig" [total]="searchResults?.payload?.totalElements"></ds-search-export-csv>
+  }
+</div>
+<!--
 <div class="d-flex justify-content-between">
   @if (!disableHeader) {
     <h1>{{ (configuration ? configuration + '.search.results.head' : 'search.results.head') | translate }}</h1>
@@ -18,6 +35,8 @@
     <ds-search-export-csv [searchConfig]="searchConfig" [total]="searchResults?.payload?.totalElements"></ds-search-export-csv>
   }
 </div>
+-->
+<!-- END TAMU Customization - single h1 element per community search page -->
 @if (searchResults && searchResults?.hasSucceeded && !searchResults?.isLoading && searchResults?.payload?.page.length > 0) {
   <div @fadeIn>
     <ds-viewable-collection

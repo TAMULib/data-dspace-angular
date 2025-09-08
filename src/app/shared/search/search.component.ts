@@ -132,6 +132,11 @@ export class SearchComponent implements OnDestroy, OnInit {
   @Input() fixedFilterQuery: string;
 
   /**
+   * Header level of search results. Defaults to h2.
+   */
+  @Input() headerLevel = 'h2';
+
+  /**
    * A hidden query that will be used but not displayed in the url/searchbar
    */
   @Input() hiddenQuery: string;
