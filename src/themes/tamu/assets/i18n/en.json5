@@ -39,9 +39,9 @@
 
   "browse.metadata.department": " Department",
 
-  "browse.metadata.type.breadcrumbs": "Browse by Type",
-
   "browse.metadata.department.breadcrumbs": "Browse by Department",
+
+  "browse.metadata.type.breadcrumbs": "Browse by Type",
 
   "feed.description": "RSS feed",
 
@@ -54,4 +54,8 @@
   "nav.mydspace": "My Data@TAMU",
 
   "register-page.registration.info": "Register an account to subscribe to collections for email updates, and submit new items to Data@TAMU.",
+
+  "search-page.heading": "Search OAKTrust",
+
+  "search-page.configuration.heading": "Search Configuration",
 }

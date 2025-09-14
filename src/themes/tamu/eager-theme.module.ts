@@ -2,14 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { RootModule } from '../../app/root.module';
-import { HeaderComponent } from './app/header/header.component';
 import { HeaderNavbarWrapperComponent } from './app/header-nav-wrapper/header-navbar-wrapper.component';
+import { HeaderComponent } from './app/header/header.component';
 import { HomeNewsComponent } from './app/home-page/home-news/home-news.component';
 import { NavbarComponent } from './app/navbar/navbar.component';
 
 // TAMU Customizations
 import { LoginPageComponent } from './app/login-page/login-page.component';
 import { LogoutPageComponent } from './app/logout-page/logout-page.component';
+import { SearchPageComponent } from './app/search-page/search-page.component';
+import { SearchResultsComponent } from './app/shared/search/search-results/search-results.component';
 // END TAMU Customizations
 
 /**
@@ -26,7 +28,9 @@ const DECLARATIONS = [
   NavbarComponent,
   // TAMU Customizations
   LoginPageComponent,
-  LogoutPageComponent
+  LogoutPageComponent,
+  SearchPageComponent,
+  SearchResultsComponent,
   // END TAMU Customizations
 ];
 
