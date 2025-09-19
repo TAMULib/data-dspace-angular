@@ -138,11 +138,24 @@
       [fields]="['dc.identifier.uri']"
       [label]="'item.page.uri'">
     </ds-item-page-uri-field>
+
     <!-- TAMU Customization - Scholar profile URL -->
-    <ds-item-page-uri-field [item]="object"
-      [fields]="['dc.relation.profileurl']"
-      [label]="'item.author.uri'">
-    </ds-item-page-uri-field>
+    @if (hasAuthorUri(object) ) {
+    <div class="simple-view-element mb-2">
+      <h2 class="simple-view-element-header fs-4">{{"item.author.uri" | translate}}</h2>
+      <span>Request access to research data here</span>
+      <div class="simple-view-element-body">
+        <div class="item-page-field">
+           @for (profileurl of object.allMetadata('dc.relation.profileurl'); track profileurl) {
+            <a class="dont-break-out" [href]="profileurl.value" [target]="'_blank'" role="link" tabindex="0">
+              {{ profileurl.value }}
+            </a>
+           }
+        </div>
+      </div>
+    </div>
+    }
+
     <!-- END TAMU Customization - Scholar profile URL -->
     <ds-item-page-collections [item]="object"></ds-item-page-collections>
 
