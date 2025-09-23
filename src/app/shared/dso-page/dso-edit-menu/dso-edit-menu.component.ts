@@ -7,7 +7,12 @@ import {
   Injector,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorizationDataService } from 'src/app/core/data/feature-authorization/authorization-data.service';
+// TAMU Customization - aria role menubar only when menuitem are present
+import { Observable } from 'rxjs';
+
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+// import { AuthorizationDataService } from 'src/app/core/data/feature-authorization/authorization-data.service';
+// END TAMU Customization - aria role menubar only when menuitem are present
 
 import { MenuComponent } from '../../menu/menu.component';
 import { MenuService } from '../../menu/menu.service';
@@ -34,6 +39,17 @@ export class DsoEditMenuComponent extends MenuComponent {
    */
   menuID = MenuID.DSO_EDIT;
 
+  // TAMU Customization - aria role menubar only when menuitem are present
+  /**
+   * Whether the DSO_EDIT menu has sub sections.
+   * 
+   * This is used to determine if the menu items will be
+   * rendered within the role="menubar".
+   * 
+   * @type {Observable<boolean>}
+   */
+  hasSubSections: Observable<boolean>;
+  // END TAMU Customization - aria role menubar only when menuitem are present
 
   constructor(protected menuService: MenuService,
               protected injector: Injector,
@@ -43,5 +59,12 @@ export class DsoEditMenuComponent extends MenuComponent {
   ) {
     super(menuService, injector, authorizationService, route, themeService);
   }
+
+  // TAMU Customization - aria role menubar only when menuitem are present
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.hasSubSections = this.menuService.hasSubSections(this.menuID, null);
+  }
+  // END TAMU Customization - aria role menubar only when menuitem are present
 
 }
