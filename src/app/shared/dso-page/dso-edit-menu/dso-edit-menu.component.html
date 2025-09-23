@@ -1,4 +1,7 @@
+<!-- TAMU Customization - aria role menubar only when menuitem are present -->
 <div class="dso-edit-menu d-flex" [attr.role]="(hasSubSections | async) ? 'menubar' : null">
+<!-- <div class="dso-edit-menu d-flex" role="menubar"> -->
+<!-- END TAMU Customization - aria role menubar only when menuitem are present -->
   @for (section of (sections | async); track section) {
     <div class="ms-1">
       <ng-container

@@ -8,10 +8,13 @@
         </span>
       </div>
     </div>
+    <!-- TAMU Customization - starts with input hint accessibility update -->
     <small class="text-muted">
       <span aria-hidden="true">{{'browse.startsWith.hint' | translate}}. </span>
       <span aria-hidden="true">{{'browse.startsWith.click_here' | translate}}</span>
-      <span><a [attr.aria-label]="'browse.startsWith.type_text' | translate" [routerLink]="['../../search']">{{'browse.startsWith.general_search' | translate}}</a>.</span>
+      <span><a class="text-decoration-underline" [attr.aria-label]="'browse.startsWith.type_text' | translate" [routerLink]="['../../search']">{{'browse.startsWith.general_search' | translate}}</a>.</span>
     </small>
+    <!-- <small class="text-muted">{{'browse.startsWith.type_text' | translate}}</small> -->
+    <!-- END TAMU Customization - starts with input hint accessibility update -->
   </div>
 </form>
