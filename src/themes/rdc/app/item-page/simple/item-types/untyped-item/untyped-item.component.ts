@@ -126,6 +126,11 @@ export class UntypedItemComponent extends BaseComponent {
       && dso?.metadata?.['dc.relation.sourceResearchProject']?.length > 0;
   }
 
+  hasAuthorUri(dso: DSpaceObject): boolean {
+    return this.isResearchProject(dso)
+      && dso?.metadata?.['dc.relation.profileurl']?.length > 0;
+  }
+
   private isResearchProject(dso: DSpaceObject): boolean {
     return dso?.getRenderTypes()
       .filter((type) => typeof type === 'string')
