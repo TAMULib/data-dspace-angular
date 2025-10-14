@@ -1,35 +1,35 @@
 {
-  "title": "Data@TAMU",
+  "title": "ResearchData@TAMU",
 
-  "repository.title": "Data@TAMU",
+  "repository.title": "ResearchData@TAMU",
 
-  "repository.title.prefix": "Data@TAMU :: ",
+  "repository.title.prefix": "ResearchData@TAMU :: ",
 
-  "menu.section.browse_global": "Browse Data@TAMU",
+  "menu.section.browse_global": "Browse ResearchData@TAMU",
 
   "menu.section.browse_global_by_type": "By Type",
 
   "menu.section.browse_global_by_department": "By Department",
 
-  "search.form.scope.all": "All of Data@TAMU",
+  "search.form.scope.all": "All of ResearchData@TAMU",
 
-  "dso-selector.set-scope.community.button": "Search all of Data@TAMU",
+  "dso-selector.set-scope.community.button": "Search all of ResearchData@TAMU",
 
-  "home.top-level-communities.head": "Communities in Data@TAMU",
+  "home.top-level-communities.head": "Communities in ResearchData@TAMU",
 
-  "login.form.header": "Please log in to Data@TAMU",
+  "login.form.header": "Please log in to ResearchData@TAMU",
 
   "communityList.expandAll": "Expand All",
 
   "communityList.collapseAll": "Collapse All",
 
-  "submission.import-external.page.hint": "Enter a query above to find items from the web to import in to Data@TAMU.",
+  "submission.import-external.page.hint": "Enter a query above to find items from the web to import in to ResearchData@TAMU.",
 
-  "submission.import-external.back-to-my-dspace": "Back to My Data@TAMU",
+  "submission.import-external.back-to-my-dspace": "Back to My ResearchData@TAMU",
 
-  "error-page.orcid.generic-error": "An error occurred during login via ORCID. Make sure you have shared your ORCID account email address with Data@TAMU. If the error persists, contact the administrator",
+  "error-page.orcid.generic-error": "An error occurred during login via ORCID. Make sure you have shared your ORCID account email address with ResearchData@TAMU. If the error persists, contact the administrator",
 
-  "admin.registries.metadata.description": "The metadata registry maintains a list of all metadata fields available in the repository. These fields may be divided amongst multiple schemas. However, Data@TAMU requires the qualified Dublin Core schema.",
+  "admin.registries.metadata.description": "The metadata registry maintains a list of all metadata fields available in the repository. These fields may be divided amongst multiple schemas. However, ResearchData@TAMU requires the qualified Dublin Core schema.",
 
   "browse.comcol.by.type": "By Type",
 
@@ -45,17 +45,17 @@
 
   "feed.description": "RSS feed",
 
-  "mydspace.title": "My Data@TAMU",
+  "mydspace.title": "My ResearchData@TAMU",
 
-  "mydspace.breadcrumbs": "My Data@TAMU",
+  "mydspace.breadcrumbs": "My ResearchData@TAMU",
 
-  "nav.browse.header": "All of Data@TAMU",
+  "nav.browse.header": "All of ResearchData@TAMU",
 
-  "nav.mydspace": "My Data@TAMU",
+  "nav.mydspace": "My ResearchData@TAMU",
 
-  "register-page.registration.info": "Register an account to subscribe to collections for email updates, and submit new items to Data@TAMU.",
+  "register-page.registration.info": "Register an account to subscribe to collections for email updates, and submit new items to ResearchData@TAMU.",
 
-  "search-page.heading": "Search Data@TAMU",
+  "search-page.heading": "Search ResearchData@TAMU",
 
   "search-page.configuration.heading": "Search Configuration",
 
