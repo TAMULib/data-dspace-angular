@@ -69,6 +69,24 @@
       [label]="'item.page.department' | translate">
     </ds-metadata-representation-list>
     <!-- END TAMU Customization - Department  -->
+    <!-- TAMU Customization - Funding Agency -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.contributor.sponsor']"
+      [label]="'item.page.funding-agency'">
+    </ds-generic-item-page-field>
+    <!-- END TAMU Customization - Funding Agency -->
+    <!-- TAMU Customization - Sponsor Award Number -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['local.awardNumber']"
+      [label]="'item.page.sponsor-award-number'">
+    </ds-generic-item-page-field>
+    <!-- END TAMU Customization - Sponsor Award Number -->
+    <!-- TAMU Customization - Period of Performance -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.date']"
+      [label]="'item.page.period-of-performance'">
+    </ds-generic-item-page-field>
+    <!-- END TAMU Customization - Period of Performance -->
     <ds-generic-item-page-field [item]="object"
       [fields]="['journal.title']"
       [label]="'item.page.journal-title'">
