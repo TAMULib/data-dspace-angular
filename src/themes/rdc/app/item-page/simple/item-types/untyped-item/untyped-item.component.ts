@@ -131,6 +131,12 @@ export class UntypedItemComponent extends BaseComponent {
       && dso?.metadata?.['dc.relation.profileurl']?.length > 0;
   }
 
+  hasPeriodOfPerformance(dso: DSpaceObject): boolean {
+    return this.isResearchProject(dso) 
+      && dso?.metadata?.['dc.date.projectStart']?.length > 0
+      && dso?.metadata?.['dc.date.projectEnd']?.length > 0;
+  }
+
   private isResearchProject(dso: DSpaceObject): boolean {
     return dso?.getRenderTypes()
       .filter((type) => typeof type === 'string')
