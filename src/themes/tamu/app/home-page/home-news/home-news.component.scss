@@ -62,8 +62,9 @@
   }
 
   a {
-    color: var(--ds-home-news-link-color);
-
+    /* TAMU Customization - make the link actually visible on the news blurb*/
+    color: rgb(198, 177, 180);
+    /* END TAMU Customization */
     &:hover {
       color: var(--ds-home-news-link-hover-color);
     }
