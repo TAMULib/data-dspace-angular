@@ -222,11 +222,7 @@
         <div class="mb-2" class="uri-truncate">
           <ul class="list-unstyled">
             @for (uri of object.allMetadata('dc.relation.associatedPublicationURI'); track uri) {
-              <li>
-                <a href="{{uri.value}}" class="uri-truncate" target="_blank">
-                  {{uri.value}}
-                </a>
-              </li>
+              <li><dc-relation-associated-publication-uri [value]="uri?.value" /></li>
             }
           </ul>
         </div>
