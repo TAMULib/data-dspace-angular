@@ -28,7 +28,7 @@ import { listableObjectComponent } from '../../../../../../../app/shared/object-
 import { ThemedResultsBackButtonComponent } from '../../../../../../../app/shared/results-back-button/themed-results-back-button.component';
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
 import { RdcItemPageAbstractFieldComponent } from '../../field-components/specific-field/abstract/rdc-item-page-abstract-field.component';
-import { ChildComponent } from '../../dc-relation-associatedPublicationURI/dc-relation-associatedPublicationURI';
+import { DcRelationAssociatedPublicationUri } from '../../dc-relation-associatedPublicationURI/dc-relation-associatedPublicationURI';
 
 /**
  * Component that represents an untyped Item page
@@ -44,7 +44,7 @@ import { ChildComponent } from '../../dc-relation-associatedPublicationURI/dc-re
   standalone: true,
   imports: [
     AsyncPipe,
-    ChildComponent,
+    DcRelationAssociatedPublicationUri,
     CollectionsComponent,
     DsoEditMenuComponent,
     GenericItemPageFieldComponent,

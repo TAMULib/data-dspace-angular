@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angu
   templateUrl: './dc-relation-associatedPublicationURI.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChildComponent implements OnInit {
+export class DcRelationAssociatedPublicationUri implements OnInit {
   private document = inject(DOCUMENT);
 
   value = input<string>();
@@ -39,6 +39,17 @@ export class ChildComponent implements OnInit {
       }
     } else {
       this.valueText = template.content.textContent || '';
+
+      try {
+        const url = new URL(this.valueText);
+
+        if (url.protocol === 'http:' || url.protocol === 'https:') {
+          this.isLink = true;
+          this.valueHref = this.valueText;
+        }
+      } catch (error) {
+        this.isLink = false;
+      }
     }
   }
 }
