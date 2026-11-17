@@ -43,10 +43,9 @@ export class DcRelationAssociatedPublicationUri implements OnInit {
       try {
         const url = new URL(this.valueText);
 
-        if (url.protocol === 'http:' || url.protocol === 'https:') {
-          this.isLink = true;
-          this.valueHref = this.valueText;
-        }
+        this.isLink = true;
+        this.valueHref = this.valueText;
+
       } catch (error) {
         this.isLink = false;
       }
