@@ -45,7 +45,6 @@ export class DcRelationAssociatedPublicationUri implements OnInit {
 
         this.isLink = true;
         this.valueHref = this.valueText;
-
       } catch (error) {
         this.isLink = false;
       }
