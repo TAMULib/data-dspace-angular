@@ -1,0 +1,6 @@
+<a *ngIf="isLink" [href]="valueHref" [target]="valueTarget" [rel]="valueRel">
+  {{ valueText }}
+</a>
+<span *ngIf="!isLink">
+  {{ valueText }}
+</span>
